@@ -12,9 +12,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Taco {
-
+    @NotNull
+    @Size(min=5, message="Name must be at least 5 characters long")
     private String name;
 
+    @NotNull(message = "You must choose at least 1 ingredient in each category")
+    @Size(min=5, message="You must choose at least 1 ingredient in each category") // this validation is very sloppy
     private List<String> ingredients;
 
 }
