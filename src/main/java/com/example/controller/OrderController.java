@@ -18,13 +18,13 @@ public class OrderController {
     @GetMapping("/current")
     public String orderForm(Model model) {
         model.addAttribute("order", new Order());
-        return "orderForm";
+        return "order";
     }
 
     @PostMapping
     public String processOrder(@Valid Order order, Errors errors) {
         if(errors.hasErrors()) {
-            return "orderForm";
+            return "order";
         }
         log.info("Order submitted: " + order);
         return "redirect:/";
