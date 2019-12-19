@@ -13,6 +13,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @WebMvcTest
 @ContextConfiguration(classes = {DemoApplication.class})
@@ -22,9 +25,9 @@ public class HomeControllerTest {
 
     @Test
     public void testHomePage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("home"))
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("Welcome to...")));
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("home"))
+                .andExpect(content().string(Matchers.containsString("Welcome to...")));
     }
 }

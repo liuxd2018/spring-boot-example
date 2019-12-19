@@ -9,7 +9,12 @@
 <body>
     <h1>Welcome to...</h1>
     <img th:src="@{/images/TacoCloud.jpeg}">
-
+    <br />
     <a th:href="@{/design}" id="design">Design a taco</a>
+
+
+    <div>run app use: mvn spring-boot:run, and this command watch classpath for restart or reload</div>
+    <div>refresh app use: mvn compile (use IDE build will be more efficient, because mvn recompile everything)</div>
+    <div>if you change contents of pom.xml, you need to restart explicitly</div>
 </body>
 </html>
