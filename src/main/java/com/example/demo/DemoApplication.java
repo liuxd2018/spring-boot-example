@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@ComponentScan({"com.example.controller"})
+@ComponentScan({"com.example"})
 @Import(WebConfig.class)
 public class DemoApplication {
 
