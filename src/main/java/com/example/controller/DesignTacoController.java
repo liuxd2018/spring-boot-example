@@ -3,10 +3,12 @@ package com.example.controller;
 import com.example.model.Ingredient;
 import com.example.model.Order;
 import com.example.model.Taco;
+import com.example.model.User;
 import com.example.repository.IngredientRepository;
 import com.example.repository.TacoRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -33,21 +35,9 @@ public class DesignTacoController {
         this.tacoRepository = tacoRepository;
     }
 
-//     two end point method both need this
+    // two end point method both need this
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-////        List<Ingredient> ingredients = List.of(
-////                new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
-////                new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
-////                new Ingredient("GRBF", "Ground Beef", Type.PROTEIN),
-////                new Ingredient("CARN", "Carnitas", Type.PROTEIN),
-////                new Ingredient("TMTO", "Diced Tomatoes", Type.VEGGIES),
-////                new Ingredient("LETC", "Lettuce", Type.VEGGIES),
-////                new Ingredient("CHED", "Cheddar", Type.CHEESE),
-////                new Ingredient("JACK", "Monterrey Jack", Type.CHEESE),
-////                new Ingredient("SLSA", "Salsa", Type.SAUCE),
-////                new Ingredient("SRCR", "Sour Cream", Type.SAUCE)
-////        );
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientRepository.findAll().forEach(i -> ingredients.add(i));
         Type[] types = Type.values();
@@ -63,34 +53,26 @@ public class DesignTacoController {
     public Taco taco() {
         return new Taco();
     }
+
+//    @ModelAttribute(name = "user")
+//    public User user(@AuthenticationPrincipal User user) {
+//        return user;
+//    }
     @GetMapping
-    public String showDesignForm(Model model) {
-//        List<Ingredient> ingredients = new ArrayList<>();
-//        ingredientRepository.findAll().forEach(i -> ingredients.add(i));
-//        Type[] types = Type.values();
-//        for(Type type: types) {
-//            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
-//        }
-//        List<Ingredient> ingredients = new ArrayList<>();
-//        ingredientRepository.findAll().forEach(i -> ingredients.add(i));
-//        Type[] types = Type.values();
-//        for(Type type: types) {
-//            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
-//        }
+    public String showDesignForm(Model model, @AuthenticationPrincipal User user) {
+        log.info("   --- Designing taco");
+        model.addAttribute("user", user);
         return "design";
     }
     @PostMapping
-    public String processDesign(@Valid Taco design, Errors errors, @ModelAttribute Order order) {
-        if(errors.hasErrors()) {
-//            System.out.println(design);
-//            System.out.println(errors.getAllErrors());
+    public String processDesign(@Valid Taco design, Errors errors,
+                                @ModelAttribute Order order) {
+        log.info("   --- Saving taco");
 
-            return "design";
+        if(errors.hasErrors()) {
+            return "design"; // use redirect or not??
         }
         // save the taco design
-
-        log.info("Processing design: " + design);
-        log.info(order);
         Taco saved = tacoRepository.save(design);
         order.addDesign(saved);
         return "redirect:/orders/current";
