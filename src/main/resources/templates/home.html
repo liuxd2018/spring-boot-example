@@ -9,6 +9,7 @@
 <body>
     <h1>Welcome to...</h1>
     <img th:src="@{/images/TacoCloud.jpeg}">
+    Logged user: <span th:text="${#authentication.principal.fullname}">Bob</span>
     <form method="POST" th:action="@{/logout}" id="logoutForm">
         <input type="submit" value="Logout"/>
     </form>
@@ -19,4 +20,7 @@
     <div>refresh app use: mvn compile (use IDE build will be more efficient, because mvn recompile everything)</div>
     <div>if you change contents of pom.xml, you need to restart explicitly</div>
 </body>
+<script th:inline="javascript">
+    let authen = [[${#authentication}]]
+</script>
 </html>
