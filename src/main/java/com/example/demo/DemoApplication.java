@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @ComponentScan({"com.example"})
-@Import(WebConfig.class)
+@Import({WebConfig.class, SecurityConfig.class})
 public class DemoApplication {
 
 	public static void main(String[] args) {
